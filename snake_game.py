@@ -5,7 +5,7 @@ pygame.init()
 
 # MUSIC AND SOUNDS
 food_eat = pygame.mixer.Sound('snk_food.wav')
-bg_music = pygame.mixer.music.load('hey mama song.mp3')
+bg_music = pygame.mixer.music.load('game_music.wav')
 
 
 # COLOURS
@@ -23,7 +23,7 @@ gray = (180, 184, 181)
 # GLOBAL VARIABLES
 width, height = 700, 400
 screen = pygame.display.set_mode((width, height))
-title = pygame.display.set_caption('~ SNAKE GAME ~')
+title = pygame.display.set_caption('SNAKE GAME')
 clock = pygame.time.Clock()
 snk_size = 10
 
@@ -89,25 +89,23 @@ def plot_snk(screen, color, snk_size, snk_list):
 
 
 def gameloop():
-	x =int(width/2)
-	y = int(height/2)
+	x =int(width/2)		
+	y = int(height/2)	
 	i = 1
-	val_x = 0
-	val_y = 0
+	val_x = 0	# Velocity at x axis
+	val_y = 0	# Velocity at y axis
 	score = 0
-	food_x = randint(31, width/2)
-	food_y = randint(31, height/2)
+	food_x = randint(31, width//2)
+	food_y = randint(31, height//2)
 	snk_list = []
 	snk_length = 1
 	quit_game = False
 	exit = False
 	prev_path = ''
-	pygame.mixer.music.play(-1)				# this is for bg music
+	pygame.mixer.music.play(-1)
 	pygame.mixer.music.set_volume(0.4)
 	
 	while quit_game == False:
-		#mouse = pygame.mouse.get_pos()
-		#print(mouse)
 		
 		if exit:
 			screen.fill(white)
@@ -135,25 +133,22 @@ def gameloop():
 						quit_game = True
 						
 					if event.key == pygame.K_LEFT:
-						if prev_path == '' or prev_path == 'up' or prev_path == 'down' or prev_path == 'left':
+						if prev_path != 'right':
 							val_x = -10
 							val_y = 0
 							prev_path = 'left'
-						break	
-					if event.key == pygame.K_RIGHT:
-						if prev_path == '' or prev_path == 'up' or prev_path == 'down' or prev_path == 'right':
+					elif event.key == pygame.K_RIGHT:
+						if prev_path != 'left':
 							val_x = 10
 							val_y = 0
 							prev_path = 'right'
-						break	
-					if event.key == pygame.K_UP:
-						if prev_path == '' or prev_path == 'left' or prev_path == 'right' or prev_path == 'up':
+					elif event.key == pygame.K_UP:
+						if prev_path != 'down':
 							val_y = -10
 							val_x = 0
 							prev_path = 'up'
-						break
-					if event.key == pygame.K_DOWN:
-						if prev_path == '' or prev_path == 'left' or prev_path == 'right' or prev_path == 'down':
+					elif event.key == pygame.K_DOWN:
+						if prev_path != 'up':
 							val_y = 10
 							val_x = 0
 							prev_path = 'down'
@@ -168,11 +163,11 @@ def gameloop():
 				score += 10
 				previous_food = (food_x, food_y)
 				if score > 500:
-					food_x = randint(31, width)
-					food_y = randint(31, height)
+					food_x = randint(31, width - snk_size)
+					food_y = randint(31, height - snk_size)
 				else:
-					food_x = randint(60, width/2)
-					food_y = randint(60, height/2)
+					food_x = randint(60, width//2)
+					food_y = randint(60, height//2)
 					
 				snk_length += 1
 				if (food_x, food_y) == previous_food:
@@ -221,5 +216,3 @@ def gameloop():
 	pygame.quit()
 	quit()
 gameloop()	
-	
-	
